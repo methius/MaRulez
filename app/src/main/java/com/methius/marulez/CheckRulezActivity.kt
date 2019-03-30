@@ -11,6 +11,12 @@ import android.widget.*
 import kotlinx.android.synthetic.main.activity_check_rulez.*
 import java.util.ArrayList
 import android.widget.EditText
+import android.R.string.cancel
+import android.content.DialogInterface
+import android.support.v7.app.AlertDialog
+import android.widget.Toast
+
+
 
 
 class CheckRulezActivity : AppCompatActivity() {
@@ -117,14 +123,36 @@ class CheckRulezActivity : AppCompatActivity() {
 
         button9?.setOnClickListener { view ->
 
-            var helper: DBHelper = DBHelper(this)
-            var db: SQLiteDatabase = helper.writableDatabase
-            var sqlDelete = "DELETE FROM rulezTable WHERE title = '" + title_trans + "'"
-            db.execSQL(sqlDelete)
+            val dialog = AlertDialog.Builder(this)
+            dialog.setTitle("Are you sure you want to this rules?")
+            // OK 버튼 이벤트
+            dialog.setPositiveButton("Confirm", DialogInterface.OnClickListener { dialog, which ->
 
-            db.close()
-            var intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+                var helper: DBHelper = DBHelper(this)
+                var db: SQLiteDatabase = helper.writableDatabase
+                var sqlDelete = "DELETE FROM rulezTable WHERE title = '" + title_trans + "'"
+                db.execSQL(sqlDelete)
+
+                db.close()
+                var intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+
+            })
+            // Cancel 버튼 이벤트
+            dialog.setNegativeButton("Cancel",
+                DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+            dialog.show()
+
+
+
+//            var helper: DBHelper = DBHelper(this)
+//            var db: SQLiteDatabase = helper.writableDatabase
+//            var sqlDelete = "DELETE FROM rulezTable WHERE title = '" + title_trans + "'"
+//            db.execSQL(sqlDelete)
+//
+//            db.close()
+//            var intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
         }
     }
 
