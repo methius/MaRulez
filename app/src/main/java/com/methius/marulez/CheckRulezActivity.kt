@@ -143,16 +143,6 @@ class CheckRulezActivity : AppCompatActivity() {
                 DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
             dialog.show()
 
-
-
-//            var helper: DBHelper = DBHelper(this)
-//            var db: SQLiteDatabase = helper.writableDatabase
-//            var sqlDelete = "DELETE FROM rulezTable WHERE title = '" + title_trans + "'"
-//            db.execSQL(sqlDelete)
-//
-//            db.close()
-//            var intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
         }
     }
 

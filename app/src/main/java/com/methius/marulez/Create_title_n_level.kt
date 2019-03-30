@@ -26,45 +26,49 @@ class Create_title_n_level : AppCompatActivity() {
         button10.setOnClickListener { view ->
 
 
-            var helper = DBHelper(this)
-            var db = helper.writableDatabase
-
-            var sql = "insert into rulezTable (title, highLevelNum, lowLevelNum, highLevel, lowLevel, detail) values (?, ?, ?,?,?,?)"
-
-            title = editText2.text.toString()
-            highLevelNum = Integer.parseInt(editText3.text.toString())
-            lowLevelNum = Integer.parseInt(editText4.text.toString())
+            title = editText2?.text.toString()
+            if (editText3?.text.toString()!= "" && editText4?.text?.toString()!= "" ){
+                highLevelNum = Integer.parseInt(editText3?.text.toString())
+                lowLevelNum = Integer.parseInt(editText4?.text?.toString())
+            }
             highLevel = ""
             lowLevel = ""
             detail = ""
 
+            if (title == ""  || editText3?.text.toString()=="" || editText4?.text?.toString()== "") {
+            } else {
 
-            var arg1 = arrayOf(title, highLevelNum, lowLevelNum,highLevel, lowLevel, detail)
+                var helper = DBHelper(this)
+                var db = helper.writableDatabase
 
-            var tableSize:Int = highLevelNum!! * lowLevelNum!!
+                var sql =
+                    "insert into rulezTable (title, highLevelNum, lowLevelNum, highLevel, lowLevel, detail) values (?, ?, ?,?,?,?)"
 
-            var idx = 0
-            while (idx < tableSize) {
-                db.execSQL(sql, arg1)
-                idx ++
+
+                var arg1 = arrayOf(title, highLevelNum, lowLevelNum, highLevel, lowLevel, detail)
+
+                var tableSize: Int = highLevelNum!! * lowLevelNum!!
+
+                var idx = 0
+                while (idx < tableSize) {
+                    db.execSQL(sql, arg1)
+                    idx++
+                }
+
+
+                db.close()
+
+                title_trans = title
+                highLevelNum_trans = highLevelNum
+                lowLevelNum_trans = lowLevelNum
+
+
+                var intent = Intent(this, com.methius.marulez.CheckRulezActivity::class.java)
+                intent.putExtra("title_trans", title_trans)
+                intent.putExtra("highLevelNum_trans", highLevelNum!!)
+                intent.putExtra("lowLevelNum_trans", lowLevelNum!!)
+                startActivity(intent)
             }
-
-
-
-
-            db.close()
-
-            title_trans = title
-            highLevelNum_trans = highLevelNum
-            lowLevelNum_trans = lowLevelNum
-
-
-
-            var intent = Intent(this, com.methius.marulez.CheckRulezActivity::class.java)
-            intent.putExtra("title_trans", title_trans)
-            intent.putExtra("highLevelNum_trans", highLevelNum!!)
-            intent.putExtra("lowLevelNum_trans", lowLevelNum!!)
-            startActivity(intent)
         }
     }
 }
